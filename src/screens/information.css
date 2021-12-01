@@ -1,0 +1,154 @@
+.Information {
+    display: flex;
+    /* width: 1000px; */
+    border-radius: 10px;
+    overflow: auto;
+    /* border: 1px solid #e2e4e5; */
+    background-color: rgb(146 151 179 / 13%);
+    margin: 10px 0;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    flex: 8;
+    padding: 32px;
+    /* background-color: #fff; */
+    transition: .3s ease-in-out
+}
+
+.main .top span{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.main .top p{
+    font-weight: 100;
+    color:#575f6e;
+    margin-top: 12px;
+}
+
+.main .middle{
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    margin: 32px 0;
+}
+
+.main .middle .inputbox{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+}
+
+.main .middle .inputbox input{
+    border: none;
+    border-bottom: 1px solid silver;
+    padding: 10px;
+}
+
+.main .middle .inputbox label{
+  margin-bottom: 8px;
+
+}
+
+.main .middle .inputbox .verifycode{
+    display: flex;
+    flex-direction: row;
+}
+
+.main .middle .button-box{
+    display: flex;
+}
+
+.main .middle .button-box button{
+    border: none;
+    margin: 12px 12px 12px 0;
+    background-color: #9e69ab;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.main .middle .button-box button:hover{
+    background-color: #8e5e9a;
+}
+
+.main button[type=submit]{
+    width: 160px;
+    height: 48px;
+    color: white;
+    background-color: #a371afb9;
+    border: none;
+    border-radius: 48px;
+    cursor: pointer;
+}
+
+.main button[type=submit]:hover {
+    background-color: #9e69ab;
+}
+
+.main .check{
+    display: flex;
+    justify-content: space-between;
+}
+
+.main .check a{
+    font-size: 12px;
+    color: #a371af;
+}
+
+.main .check a:hover {
+    text-decoration: underline;
+}
+
+.side{
+    flex: 5;
+    background-color:#a371af;
+    color:white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 32px;
+    transition: .3s ease-in-out;
+    align-self: stretch;
+}
+
+.side span{
+    font-size: 32px;
+}
+
+.side .line {
+    width: 80px;
+    height: 6px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 10px 0 40px;
+}
+
+.side p{
+    font-size: 16px;
+    text-align: center;
+}
+
+.side a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    background-color:#a371af;
+    border-radius: 48px;
+    width: 160px;
+    height: 48px;
+    border:1px solid white;
+    margin-top: 60px;
+    cursor: pointer;
+}
+.side button:hover {
+    background-color: #9e69ab;
+}
+
+.main .agree span{
+    color : #9e69ab;
+}
