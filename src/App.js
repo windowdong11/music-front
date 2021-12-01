@@ -136,14 +136,6 @@ function App() {
           Your browser does not support the video tag.
         </video>
       </div>
-      <div className="dark-light"
-       onClick={() => {
-        document.body.classList.toggle("light-mode")
-    }}>
-        <svg viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-        </svg>
-      </div>
       <div className="app">
         <div className="header">
           <div className="menu-circle" />
@@ -161,6 +153,14 @@ function App() {
             <input type="text" placeholder="Search" value={searchInput} onChange={handleSearchChange} onKeyDown={handleSearchKeyDown} />
           </div>
           <div className="header-profile">
+            <div className="dark-light"
+              onClick={() => {
+                document.body.classList.toggle("light-mode")
+              }}>
+              <svg viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+              </svg>
+            </div>
             <Link to="/signin" onClick={(e) => {
               if (auth.isSignedIn()) auth.signout()
               else setMenu(urls.Signin.name)
