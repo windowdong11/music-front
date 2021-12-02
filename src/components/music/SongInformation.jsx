@@ -5,6 +5,7 @@ import { infoModal } from "../../utils/modal"
 // TODO: 메뉴 - 드롭다운에 링크 추가
 
 let audio = undefined
+let audioCtx = undefined
 
 const updateViews = (title, views) => {
     for (const item of document.getElementsByClassName("adobe-product")) {
@@ -17,6 +18,50 @@ const updateViews = (title, views) => {
             break
         }
     }
+}
+
+const setVisualizer = () => {
+    audioCtx = new AudioContext()
+    audio.crossOrigin = "anonymous"
+    let source = audioCtx.createMediaElementSource(audio)
+    let analyser = audioCtx.createAnalyser()
+
+    source.connect(analyser)
+    analyser.connect(audioCtx.destination)
+    analyser.fftSize = 256
+
+    let bufferLength = analyser.frequencyBinCount
+    let dataArray = new Uint8Array(bufferLength)
+
+    let canvas = document.getElementById("canvas")
+    canvas.width = 400
+    canvas.height = 150
+    let ctx = canvas.getContext("2d")
+    let WIDTH = canvas.width
+    let HEIGHT = canvas.height
+    let barWidth = (WIDTH / bufferLength) * 2.5
+    let barHeight
+    let x = 0
+
+    function renderFrame() {
+        requestAnimationFrame(renderFrame)
+        x = 0
+        analyser.getByteFrequencyData(dataArray)
+        ctx.fillStyle = "#000"
+        ctx.fillRect(0, 0, WIDTH, HEIGHT)
+        for (let i = 0; i < bufferLength; i++) {
+            barHeight = dataArray[i] / 2
+
+            let r = barHeight + 25 * (i / bufferLength)
+            let g = 250 * (i / bufferLength)
+            let b = 50
+            ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")"
+            ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight)
+            x += barWidth + 1
+        }
+    }
+
+    renderFrame()
 }
 
 const audioSet = async (url, title, audioId) => {
@@ -60,6 +105,8 @@ const audioSet = async (url, title, audioId) => {
         audio.src = url
     }
     audio.play()
+    setVisualizer()
+
     const playBtn = audioPlayer.querySelector(".controls .toggle-play")
     playBtn.classList.remove("play")
     playBtn.classList.remove("pause")
