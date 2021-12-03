@@ -76,7 +76,7 @@ const MusicUpload = () => {
                 <li className="adobe-product">
                     <div className="products short">Music Filters</div>
                     {musicFilters.map((filter, index) => (
-                        <div>
+                        <div key={index}>
                             <input
                                 type="radio"
                                 name="music-filters"
