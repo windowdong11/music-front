@@ -63,57 +63,77 @@ const findUrl = (path) => {
       return urls[key]
 }
 
-const side_menus = [
-  {
-    category: 'Music',
-    menus: [
-      {
-        content: 'Sorted by views',
-        src: 'https://img.icons8.com/external-kiranshastry-gradient-kiranshastry/64/000000/external-view-cyber-security-kiranshastry-gradient-kiranshastry-2.png',
-      },
-      {
-        content: 'Sorted by date',
-        src: 'https://img.icons8.com/external-icongeek26-outline-colour-icongeek26/64/000000/external-date-camping-icongeek26-outline-colour-icongeek26.png',
-      },
-    ],
+const sortOptions = {
+  views: {
+    name: 'views',
+    desc: 'ViewsDesc',
+    asc: 'ViewsAsc',
   },
-  {
-    category: 'Folder',
-    menus: [
-      {
-        content: 'Last update',
-        src: 'https://img.icons8.com/nolan/64/approve-and-update.png',
-      },
-      {
-        content: 'Sorted by likes',
-        src: 'https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/64/000000/external-like-music-kiranshastry-lineal-color-kiranshastry.png',
-      },
-      {
-        content: ' My favorite folder',
-        src: 'https://img.icons8.com/nolan/64/folder-invoices.png',
-      },
-      {
-        content: ' My folder',
-        src: 'https://img.icons8.com/nolan/64/folder-invoices.png',
-      },
-    ],
-  },
-  {
-    category: 'Resource Links',
-    menus: [
-      {
-        content: 'Youtube',
-        src: 'https://img.icons8.com/nolan/64/youtube-play.png',
-        href: 'https://www.youtube.com/',
-      },
-    ],
+  date : {
+    name: 'date',
+    desc: 'Latest',
+    asc: 'Last'
   }
-]
-
-
+}
 
 function App() {
   const auth = useAuth();
+  const [sortOption, setSortOption] = useState(sortOptions.date.desc)
+  const handleClickSortOption = (e) => {
+    setSortOption(e.target.value)
+  }
+  
+  const side_menus = [
+    {
+      category: 'Music',
+      menus: [
+        {
+          content: 'Sorted by views',
+          value: sortOptions.views.desc,
+          onClick: handleClickSortOption,
+          src: 'https://img.icons8.com/external-kiranshastry-gradient-kiranshastry/64/000000/external-view-cyber-security-kiranshastry-gradient-kiranshastry-2.png',
+        },
+        {
+          content: 'Sorted by date',
+          value: sortOptions.date.desc,
+          onClick: handleClickSortOption,
+          src: 'https://img.icons8.com/external-icongeek26-outline-colour-icongeek26/64/000000/external-date-camping-icongeek26-outline-colour-icongeek26.png',
+        },
+      ],
+    },
+    {
+      category: 'Folder',
+      menus: [
+        {
+          content: 'Last update',
+          src: 'https://img.icons8.com/nolan/64/approve-and-update.png',
+        },
+        {
+          content: 'Sorted by likes',
+          src: 'https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/64/000000/external-like-music-kiranshastry-lineal-color-kiranshastry.png',
+        },
+        {
+          content: ' My favorite folder',
+          src: 'https://img.icons8.com/nolan/64/folder-invoices.png',
+        },
+        {
+          content: ' My folder',
+          src: 'https://img.icons8.com/nolan/64/folder-invoices.png',
+        },
+      ],
+    },
+    {
+      category: 'Resource Links',
+      menus: [
+        {
+          content: 'Youtube',
+          src: 'https://img.icons8.com/nolan/64/youtube-play.png',
+          href: 'https://www.youtube.com/',
+        },
+      ],
+    }
+  ]
+
   const [menu, setMenu] = useState(findUrl(useLocation().pathname).name)
   const [searchInput, setSearchInput] = useState('')
   const handleSearchChange = e => setSearchInput(e.target.value)
@@ -171,11 +191,13 @@ function App() {
         </div>
         <div className="wrapper">
           <div className="left-side">
-              {side_menus.map((menu, index) =>
+              {side_menus.map((category, index) =>
               <div className='side-wrapper' key={index}>
-                <div className="side-title">{menu.category}</div>
+                <div className="side-title">{category.category}</div>
                 <div className='side-menu'>
-                  {menu.menus.map((menu, index) => <SideMenu key={index} {...menu} />)}
+                  {category.menus.map((menu, index) => 
+                    <SideMenu key={index} value={menu.value} {...menu} />)
+                  }
                 </div>
               </div>
               )}
@@ -186,7 +208,7 @@ function App() {
               {/* Content here */}
               <ContentHeader />
               <Routes>
-                <Route path="/" element={<Music />} />
+                <Route path="/" element={<Music sortOption={sortOption}/>} />
                 <Route path="/signin" element={<SignupWithSignin signin />}/>
                 <Route path="/signup" element={<SignupWithSignin signin={false} />}/>
                 <Route path="/reset_password" element={<ResetPassword />}/>
