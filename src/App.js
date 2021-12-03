@@ -9,7 +9,7 @@ import ContentHeader from './components/ContentHeader';
 import SignupWithSignin from './screens/SignupWithSignin'
 import ResetPassword from './screens/ResetPassword'
 import Music from './screens/Music';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SideMenu from './components/SideMenu';
 import {useAuth} from './hooks/Auth'
 import MusicUpload from './screens/MusicUpload';
@@ -81,7 +81,6 @@ function App() {
   const handleClickSortOption = (e) => {
     setSortOption(e.target.value)
   }
-  
   const side_menus = [
     {
       category: 'Music',
@@ -132,8 +131,11 @@ function App() {
       ],
     }
   ]
-
-  const [menu, setMenu] = useState(findUrl(useLocation().pathname).name)
+  const location = useLocation()
+  const [menu, setMenu] = useState(findUrl(location.pathname).name)
+  useEffect(() =>{
+    setMenu(findUrl(location.pathname).name)
+  }, [location.pathname])
   const [searchInput, setSearchInput] = useState('')
   const handleSearchChange = e => setSearchInput(e.target.value)
   const handleSearchKeyDown = e => {
