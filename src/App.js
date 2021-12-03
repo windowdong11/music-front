@@ -8,14 +8,13 @@ import ContentHeader from './components/ContentHeader';
 // Screen
 import SignupWithSignin from './screens/SignupWithSignin'
 import ResetPassword from './screens/ResetPassword'
-import Audio from './components/audio/audio'
-import FolderScreen from './screens/FolderScreen'
 import Music from './screens/Music';
 import { useState } from 'react';
 import SideMenu from './components/SideMenu';
-import {ReversePrivateRoute, useAuth} from './hooks/Auth'
+import {useAuth} from './hooks/Auth'
 import MusicUpload from './screens/MusicUpload';
 import { searchAudio } from './apis/searchAudio';
+import Folder from './screens/Folder';
 
 axios.defaults.baseURL = 'https://api.pukuba.dev/api'
 
@@ -212,7 +211,7 @@ function App() {
                 <Route path="/signin" element={<SignupWithSignin signin />}/>
                 <Route path="/signup" element={<SignupWithSignin signin={false} />}/>
                 <Route path="/reset_password" element={<ResetPassword />}/>
-                <Route path="/folder" element={<FolderScreen />}/>
+                <Route path="/folder" element={<Folder/>}/>
                 <Route path={urls.Music_Upload.path} element={<MusicUpload />}/>
               </Routes>
             </div>
