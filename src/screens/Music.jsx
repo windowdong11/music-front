@@ -3,15 +3,29 @@ import ContentBody from "../components/ContentBody"
 import SongInformation from "../components/music/SongInformation"
 import axios from "axios"
 
+const getSong = async (pageIdx, filter, callback) => {
+    return axios
+        .get(`https://api.pukuba.dev/api/v1/audio/main?page=${pageIdx ? pageIdx : 1}&filter=${filter ? filter : 'Latest'}`)
+        .then((response) => {
+            callback(response.data)
+        })
+        .catch((err) => console.log(err.response.data))
+}
+let lastPageIdx = Infinity
 export default ({ sortOption }) => {
     const [songs, setSongs] = useState([])
-    
-    const handlePrevButton = () => {}
-    const handleNextButton = () => {}
+    const [pageIdx, setPageIdx] = useState(1)
+
+    // TODO : pageIdx 범위 초과하는 경우 예외처리?
+    const handlePrevButton = () => { if(0 < pageIdx) setPageIdx(pageIdx - 1) }
+    const handleNextButton = () => { if(pageIdx < lastPageIdx) setPageIdx(pageIdx + 1) }
     useEffect(() => {
-        axios
-            .get("https://api.pukuba.dev/api/v1/audio/random")
-            .then((response) => {
+        getSong(pageIdx, sortOption,
+            (response) => {
+                if(response.data.length === 0) {
+                    lastPageIdx = pageIdx
+                    return;
+                }
                 setSongs(
                     response.data.map((song) => {
                         return {
@@ -26,7 +40,6 @@ export default ({ sortOption }) => {
                     })
                 )
             })
-            .catch((err) => console.log(err.response.data))
-    }, [])
-    return <ContentBody Component={SongInformation} options={songs} onclickPrevBtn={handlePrevButton} onclickNextBtn={handleNextButton}/>
+    }, [pageIdx, sortOption])
+    return <ContentBody Component={SongInformation} options={songs} onclickPrevBtn={handlePrevButton} onclickNextBtn={handleNextButton} />
 }
